@@ -1,15 +1,16 @@
 ---
-title: "COMPSCIX 415.2 Homework 1"
+title: "homework_1_Ibeanusi_Nnenna"
 author: "Nnenna Ibeanusi"
-date: "6/10/2018"
+date: "6/11/2018"
 output: html_document
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
+
 My Github repository for my assignments can be found at this URL: https://github.com/nibeanusi/compscix-415-2-assignments
-```{r}
+
 library(mdsr)
 library(tidyverse)
 
@@ -18,18 +19,17 @@ data("WorldCities")
 ?WorldCities
 
 glimpse(WorldCities) #look at the data
-```
+
 
 There are 23,018 observations and 10 variables in the World Cities dataset.
 
-```{r}
+
 WorldCities <- head(WorldCities, 200)  # 200 rows
 
 country_col <- WorldCities$country
 
 unique(country_col)
 
-```
 
 country_col <- select(WorldCities, country)
 country_col <-WorldCities%>% select(country)
@@ -38,15 +38,14 @@ country_col <-WorldCities%>% select(country)
 
 ```The %>% is a pipe operator. It works by plugging in WorldCities as the first argument in the select function - it is equivalent to select(WorldCities, country). ```
 
-```{r}
+
 WorldCities %>% select(region) %>% head(5)
-```
+
 
 Answers Question 2
-```{r}
 region_column<-WorldCities %>%select(region) 
 unique(region_column) 
-```
+
 
 Answer Question 3
 WorldCities%>%select(country)%>%unique()
