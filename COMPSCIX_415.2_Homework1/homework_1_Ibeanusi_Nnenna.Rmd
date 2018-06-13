@@ -11,52 +11,84 @@ knitr::opts_chunk$set(echo = TRUE)
 
 My Github repository for my assignments can be found at this URL: https://github.com/nibeanusi/compscix-415-2-assignments
 
+```{r load_packages, warning=FALSE, message=FALSE}
 library(mdsr)
 library(tidyverse)
+```
 
+```{r}
 data("WorldCities")
+```
 
+```{r}
 ?WorldCities
+```
 
+```{r}
 glimpse(WorldCities) #look at the data
+```
+
+#There are 23,018 observations and 10 variables in the World Cities dataset.
 
 
-There are 23,018 observations and 10 variables in the World Cities dataset.
-
-
+```{r}
 WorldCities <- head(WorldCities, 200)  # 200 rows
+```
 
+```{r}
 country_col <- WorldCities$country
+```
 
+```{r}
 unique(country_col)
+```
 
-
+```{r}
 country_col <- select(WorldCities, country)
+```
+```{r}
 country_col <-WorldCities%>% select(country)
+```
 
+```{r}
 ?select #select is a function
+```
 
-```The %>% is a pipe operator. It works by plugging in WorldCities as the first argument in the select function - it is equivalent to select(WorldCities, country). ```
 
-
+```{r}
 WorldCities %>% select(region) %>% head(5)
+##The %>% is a pipe operator. It works by plugging in WorldCities as the first argument in the select function - it is equivalent to select(WorldCities, country).
+```
 
-
-Answers Question 2
+###Answers Question 2
+```{r}
 region_column<-WorldCities %>%select(region) 
 unique(region_column) 
+```
 
-
-Answer Question 3
+###Answer Question 3
+```{r}
 WorldCities%>%select(country)%>%unique()
-
+```
+```{r}
 WorldCities %>% ggplot(aes(x = population)) + geom_histogram()
+```
 
+```{r}
 WorldCities %>% ggplot(aes(x = population)) + geom_histogram() + xlab('City Population')
+ ```
  
-Answer Question 4
-WorldCities %>% ggplot(aes(x = population)) + geom_histogram() + xlab('City Population in Milions') +ylab('Frequency')
+#Answer Question 4
+```{r}
+WorldCities %>% ggplot(aes(x = population)) + geom_histogram() + 
+xlab('City Population in Milions')+ylab('Frequency')
+ ```
 
-WorldCities %>% ggplot(aes(x = population)) + geom_histogram() + xlab('City Population in Milions') +ylab('Frequency') + ggtitle('Frequency Distribution of City Population')
-
-WorldCities %>% ggplot(aes(x = population)) + geom_histogram() + xlab('City Population in Milions') +ylab('Frequency') + ggtitle('Frequency Distribution of City Population') + theme_bw()
+ ```{r}
+WorldCities %>% ggplot(aes(x = population)) + geom_histogram() + xlab('City Population in Milions')+
+ylab('Frequency') + ggtitle('Frequency Distribution of City Population')
+```
+```{r}
+WorldCities %>% ggplot(aes(x = population)) + geom_histogram() + xlab('City Population in Milions')+
+ylab('Frequency') + ggtitle('Frequency Distribution of City Population') + theme_bw()
+```
