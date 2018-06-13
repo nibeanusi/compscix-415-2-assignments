@@ -1,0 +1,194 @@
+---
+title: "ggplot2_class2"
+author: "Nnenna Ibeanusi"
+date: "6/12/2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## get the library specific to what we are doing
+```{R}
+library(tidyverse)
+library(ggplot2)
+```
+## get information for the dataset that we are using
+```{R}
+?mpg
+```
+
+## get information for plot function
+```{R}
+?plot
+```
+
+
+###
+```{R}
+data(mpg)
+ggplot(data = mpg) 
+  + geom_point(mapping = aes(x = displ, y = hwy, size = class))
+```
+
+
+###
+```{R}
+ggplot(data = mpg) 
+  + geom_point(mapping = aes(x = displ, y = hwy, shape = class))
+```
+###
+```{R}
+ggplot(data = mpg) 
+  + geom_point(mapping = aes(x = displ, y = hwy, color = class))
+```
+
+###
+```{R}
+ggplot(data = mpg) 
+  + geom_point(mapping = aes(x = displ, y = hwy, alpha = class))
+```
+
+###
+```{R}
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy), color = 'blue', alpha = .5)
+```
+
+###
+```{R}
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy))
+```
+
+###geo_smooth, created a smooth line through the points
+```{R}
+ggplot(data = mpg) + 
+  geom_smooth(mapping = aes(x = displ, y = hwy))
+```
+
+###
+```{R}
+ggplot(data = mpg) + 
+  geom_smooth(mapping = aes(x = displ, y = hwy)) +
+  geom_point(mapping = aes(x = displ, y = hwy))
+```
+
+###use the same mapping that you already define in the ggplot, instead of in the geo_smooth and geo_point
+```{R}
+ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) + 
+  geom_smooth() +
+  geom_point()
+```
+
+###
+```{R}
+ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) + 
+  geom_smooth() +
+  geom_point(mapping = aes(color = drv))
+```
+
+###grouping, creates a different line for each group
+```{R}
+ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) + 
+  geom_smooth(mapping = aes(group = drv)) +
+  geom_point(mapping = aes(color = drv))
+```
+
+###load the diamonds dqtaset and look at the first couple of rows in the dataset
+```{R}
+data("diamonds")
+head(diamonds)
+```
+
+###
+```{R}
+ggplot(data = diamonds) +
+  geom_bar(mapping = aes(x = cut))
+```
+
+###
+```{R}
+ggplot(data = diamonds) +
+  stat_count(mapping = aes(x = cut))
+```
+
+###This does not work
+```{R}
+ggplot(data = diamonds) +
+  stat_prop(mapping = aes(x = cut))
+```
+
+###count variable and dividing by the sum of count
+```{R}
+ggplot(data = diamonds) +
+  geom_bar(mapping = aes(x = cut, y = ..count../sum(..count..)))
+```
+
+###
+```{R}
+ggplot(data = diamonds) +
+  geom_bar(mapping = aes(x = cut, y = ..count../sum(..count..)))
+```
+
+###
+```{R}
+ggplot(data = diamonds) +
+  geom_bar(mapping = aes(x = cut, y = ..count../sum(..count..))) + 
+  xlab('Cut of diamond')
+```
+
+###
+```{R}
+ggplot(data = diamonds) +
+  geom_bar(mapping = aes(x = cut, y = ..count../sum(..count..))) +
+  xlab('Cut of diamond') +
+  ylab('Proportion') +
+  ggtitle('Prevalence of each cut of diamond')
+```
+
+###
+```{R}
+ggplot(data = diamonds) +
+  geom_bar(mapping = aes(x = cut, y = ..count../sum(..count..))) +
+  xlab('Cut of diamond') +
+  ylab('Proportion') +
+  ggtitle('Prevalence of each cut of diamond') +
+  theme_dark()
+```
+
+###
+```{R}
+
+```
+
+###
+```{R}
+
+```
+
+###
+```{R}
+
+```
+
+###
+```{R}
+
+```
+
+###
+```{R}
+
+```
+
+###
+```{R}
+
+```
+
+###
+```{R}
+
+```
