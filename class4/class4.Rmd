@@ -1,0 +1,62 @@
+---
+title: "Class4"
+author: "Nnenna Ibeanusi"
+date: "6/26/2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+```{r}
+library('tidyverse')
+library('nycflights13')
+library('dplyr')
+library('mdsr')
+```
+
+## R Markdown
+```{r}
+flights %>%
+  group_by(year, month, day) %>% 
+  summarise(non_miss = sum(!is.na(dep_time)), 
+            n_early = sum(dep_time < 500, na.rm = TRUE),
+            prop_early = mean(dep_time < 500, na.rm = TRUE))
+```
+
+```{r}
+flights %>% 
+  filter(is.na(dep_delay) | is.na(arr_delay))
+```
+```{r}
+#pop_quiz answer
+flights%>% mutate(cancelled=(is.na(dep_delay)|is.na(arr_delay)))%>%group_by(month,day)%>%
+  summarize(num_cancelled=sum(cancelled),
+            prop_cancelled = mean(cancelled))%>%
+  filter(month==2,day==20)
+```
+
+```{r}
+file_path<-'/Users/nnennaibeanusi/Documents/R-workspace/compscix-415-2-assignments/class4/flights.csv'
+csv_data<-read_csv(file=file_path)
+```
+
+```{r}
+write_delim(csv_data, delim='|', path='/Users/nnennaibeanusi/Documents/R-workspace/compscix-415-2-assignments/class4/flights_exported.csv')
+```
+
+```{r}
+data(iris)
+```
+```{r}
+class(iris)
+```
+
+```{r}#turn this into a tibble
+iris<-as_tibble(iris)
+```
+
+```{r}
+
+```
+
