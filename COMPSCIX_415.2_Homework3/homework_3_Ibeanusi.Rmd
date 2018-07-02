@@ -1,0 +1,151 @@
+---
+title: "homework_3_Ibeanusi_Nnenna"
+author: "Nnenna Ibeanusi"
+date: "7/1/2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+```{r}
+library("tidyverse")
+```
+
+```{r}
+#3.8.1
+#What is the problem with this plot? How could you improve it?
+ggplot(data = mpg, mapping = aes(x = cty, y = hwy)) + 
+  geom_point()
+#The problem with this plot is that known as overplotting. Many points overlap each other. This arrangement makes it hard to see where the mass of data is. We don't know if the points are spread equally through the graph, or if there is one special combination of hwy and cty that contains all the values. 
+```
+
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r}
+ggplot(data = mpg) + geom_point(mapping = aes(x = cty, y = hwy),position="jitter")
+```
+```{r}
+#3.9.1
+#Turn a stacked bar chart into a pie chart using coord_polar().
+bar <- ggplot(data = diamonds) + 
+  geom_bar(mapping = aes(x = cut, fill = clarity))
+bar+coord_flip()
+bar+coord_polar()
+```
+
+
+```{r}
+#What does labs() do? Read the documentation.
+#labs() refer to the label for axis and legend displays that help display the full variable name
+```
+
+```{r}
+#What’s the difference between coord_quickmap() and coord_map()?
+#coord_map projects a portion of the earth, which is approximately spherical, onto a flat 2D plane using any projection defined by the mapproj package. Map projections do not, in general, preserve straight lines, so this requires considerable computation. coord_quickmap is a quick approximation that does preserve straight lines. It works best for smaller areas closer to the equator.
+```
+
+```{r}
+#What does the plot below tell you about the relationship between city and highway mpg? Why is coord_fixed() important? What does geom_abline() do?
+#There is a positive relationship between city and highway mpg. As one increases, so does the other. 
+#goe_ambline puts the diagnol slope
+#Coord_fixed() A fixed scale coordinate system forces a specified ratio between the physical representation of data units on the axes. The ratio represents the number of units on the y-axis equivalent to one unit on the x-axis. The default, ratio = 1, ensures that one unit on the x-axis is the same length as one unit on the y-axis.
+ggplot(data = mpg, mapping = aes(x = cty, y = hwy)) +
+  geom_point() +
+   geom_abline() +
+  coord_fixed()
+```
+
+
+```{r}
+#Why does this code not work?
+# my_variable <- 10
+# my_varıable
+#> Error in eval(expr, envir, enclos): object 'my_varıable' not found
+#It's not an object in the environment
+```
+```{r}
+library(tidyverse)
+
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy))
+
+filter(mpg, cyl == 8)
+filter(diamonds, carat > 3)
+```
+
+```{r}
+library(nycflights13)
+```
+
+```{r}
+flights
+```
+```{r}
+?flights
+```
+
+```{r}
+#5.2.4
+#Had an arrival delay of two or more hours
+  #delayed_2ormore_hours <- filter(flights,arr_delay>=120)
+filter(flights,arr_delay>=120)
+# Flew to Houston (IAH or HOU)
+  #IAH_or_HOU_to_Houston <- filter(flights,dest%in%c('IAH','HOU'))
+filter(flights,dest%in%c('IAH','HOU'))
+# Were operated by United, American, or Delta
+filter(flights,carrier%in%c('UA', 'AA','DL'))
+# Departed in summer (July, August, and September)
+filter(flights,month%in%c(7,8,9))
+# Arrived more than two hours late, but didn’t leave late
+filter(flights,arr_delay>=120&dep_delay==0)
+# Were delayed by at least an hour, but made up over 30 minutes in flight
+filter(flights,dep_delay>=60&air_time>30)
+# Departed between midnight and 6am (inclusive)
+filter(flights, hour>=0&dep_time<=6)
+```
+
+```{r}
+#How many flights have a missing dep_time? What other variables are missing? What might these rows represent?
+filter(flights,is.na(dep_time))
+#dep_delay, arr_time, arr_delay
+```
+
+```{r}
+# Why is NA ^ 0 not missing? Why is NA | TRUE not missing? Why is FALSE & NA not missing? Can you figure out the general rule? (NA * 0 is a tricky counterexample!)
+# > NA^0
+##[1] 1
+# > NA | TRUE
+##[1] TRUE
+# > FALSE & NA 
+##[1] FALSE
+
+# Anything to the 0 is 1,
+# NA | TRUE is TRUE because of the TRUE
+# FALSE & NA is false because anything and false is always false, because the value of the missing element matters in NA | FALSE and NA & TRUE, these are missing (NA),
+# The reason that NA * 0 is not equal to 0 is that x * 0 = NaN is undefined when x = Inf or x = -Inf.
+```
+
+```{r}
+# Brainstorm as many ways as possible to select dep_time, dep_delay, arr_time, and arr_delay from flights.
+select(flights,dep_time, dep_delay, arr_time, arr_delay)
+##vars <- c("year", "month", "day", "dep_delay", "arr_delay")
+##select(flights, one_of(vars) )
+```
+
+
+
+```{r}
+# What does the one_of() function do? Why might it be helpful in conjunction with this vector?
+vars <- c("year", "month", "day", "dep_delay", "arr_delay")
+flights%>%select(one_of(vars))
+# one_of(): variables in character vector.
+```
+
+
