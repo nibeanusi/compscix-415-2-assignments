@@ -1,0 +1,28 @@
+---
+title: "Class5"
+author: "Nnenna Ibeanusi"
+date: "7/3/2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r}
+library("tidyverse")
+```
+
+```{r}
+summary(diamonds)
+```
+
+```{r}
+diamonds %>%filter(y>10)
+```
+
+```{r}
+diamonds %>% arrange(desc(y))%>%select(y)
+```
+
