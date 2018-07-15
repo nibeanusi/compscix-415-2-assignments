@@ -1,0 +1,198 @@
+---
+title: "COMPSCIX 415.2 Homework 5/Midterm"
+author: "Nnenna Ibeanusi"
+date: "7/14/2018"
+output: html_document
+---
+
+#Git and Github
+[MyGitHubPage](https://github.com/nibeanusi/compscix-415-2-assignments)
+
+
+```{r}
+library("tidyverse")
+```
+#The tidyverse packages
+
+## Can you name which package is associated with each task below?
+```{r}
+# Plotting -ggplot2
+# Data munging/wrangling - dplyr
+# Reshaping (speading and gathering) data - tidyr
+# Importing/exporting data - readr
+```
+
+
+### Now can you name two functions that you’ve used from each package that you listed above for these tasks?
+```{r}
+# Plotting - geom_point, geo_line
+# Data munging/wrangling -filter, arrange
+# Reshaping data - separate, unite
+# Importing/exporting data - read_csv, write_csv
+```
+
+#R Basics
+##Fix this code with the fewest number of changes possible so it works:
+```{r}
+#My_data.name___is.too00ooLong! <- c( 1 , 2   , 3 )
+My_data <- c( 1 , 2  , 3 )
+```
+```{r}
+#Fix this code so it works:
+#my_string <- C('has', 'an', 'error', 'in', 'it)
+my_string <- c('has', 'an', 'error', 'in', 'it')
+```
+
+##Look at the code below and comment on what happened to the values in the vector.
+```{r}
+#my_vector <- c(1, 2, '3', '4', 5)
+#my_vector
+### [1] "1" "2" "3" "4" "5"
+my_vector <- c('1', '2', '3', '4',' 5')
+```
+
+
+#Data import/export
+##Download the rail_trail.txt file from Canvas (in the Midterm Exam section) and successfully import it into R. Prove that it was imported successfully by including your import code and taking a glimpse of the result.
+```{r}
+file_path<-'/Users/nnennaibeanusi/Documents/R-workspace/compscix-415-2-assignments/midterm/rail_trail.txt'
+txt_data <- read.delim(file_path, sep = "|")
+txt_data
+```
+
+##Export the file into a comma-separated file and name it “rail_trail.csv”. Make sure you define the path correctly so that you know where it gets saved. Then reload the file. Include your export and import code and take another glimpse.
+```{r}
+write_delim(txt_data, delim='|', path='/Users/nnennaibeanusi/Documents/R-workspace/compscix-415-2-assignments/midterm/rail_trail.csv')
+```
+
+
+
+#Visualization
+
+##1.Critique this graphic: give only three examples of what is wrong with this graphic. Be concise.
+```{r}
+#There are better ways to show this. My preferred choice would have been to see a bar graph of some sort. 
+# The images are clustered close together.
+#There are too many colors
+#The colors could have been in a scale from light to dark, indicating the proportion going up or down
+```
+
+
+```{r}
+diamonds
+```
+
+```{r}
+ggplot(data=diamonds)+
+  geom_boxplot(mapping=aes(x=cut, y=carat, fill=color), position="identity") + coord_flip()+xlab("CARAT OF DIAMOND")+ylab("CUT OF DIAMOND")
+```
+
+
+```{r}
+#The previous graphic is not very useful. We can make it much more useful by changing one thing about it. Make the change and plot it again.
+ggplot(data=diamonds)+
+  geom_boxplot(mapping=aes(x=cut, y=carat, fill=color)) + coord_flip()+xlab("CARAT OF DIAMOND")+ylab("CUT OF DIAMOND")  + ggtitle("Histograms of Cut of Diamond by Carat of Diamond")
+```
+
+
+#Data munging and wrangling 
+
+##Is this data “tidy”? If yes, leave it alone and go to the next problem. If no, make it tidy. Note: this data set is called table2 and is available in the tidyverse package. It should be ready for you to use after you’ve loaded the tidyverse package.
+```{r}
+table2
+#No
+```
+
+```{r}
+table2_tidy <- table2 %>%spread(key = type, value = count)
+table2_tidy
+```
+
+##Create a new column in the diamonds data set called price_per_carat that shows the price of each diamond per carat (hint: divide). Only show me the code, not the output.
+```{r}
+diamonds <- mutate(diamonds,
+                    price_per_carat=price/carat)
+diamonds
+```
+
+
+##For each cut of diamond in the diamonds data set, how many diamonds, and what proportion, have a price > 10000 and a carat < 1.5? There are several ways to get to an answer, but your solution must use the data wrangling verbs from the tidyverse in order to get credit. 
+```{r}
+analytic_questions <- diamonds %>%filter(price>1000 | carat<1.5) %>% select(carat, price, cut) %>% 
+    group_by(cut) %>% 
+    summarize(count=n()) %>% 
+    mutate( prop = count / sum(count))
+analytic_questions
+```
+
+
+#EDA
+##During what time period is this data from?
+```{r}
+txhousing %>%distinct(year)
+#200-2015
+```
+
+##How many cities are represented?
+```{r}
+txhousing
+txhousing %>% distinct(city)
+#46
+```
+
+##Which city, month and year had the highest number of sales?
+```{r}
+txhousing
+txhousing_analytic_questions <- txhousing %>% select(city, month, year, sales) %>% 
+    group_by(city, year, month) %>% 
+    summarize(sumBySales=sum(sales)) %>% 
+    arrange(desc(sumBySales))
+txhousing_analytic_questions
+#Houston, 2015, 7
+```
+
+##What kind of relationship do you think exists between the number of listings and the number of sales? Check your assumption and show your work.
+```{r}
+ggplot(data = txhousing) + 
+  geom_point(mapping = aes(x = listings, y = sales))
+#looks like a positive relationship
+```
+
+
+##What proportion of sales is missing for each city?
+```{r}
+is_missing_txhousing<-txhousing %>% select(city, sales) %>% filter(is.na(sales)) %>% 
+  group_by(city) %>% 
+  summarize(count=n()) %>% 
+  mutate( prop = count / sum(count))
+is_missing_txhousing
+```
+
+
+##Looking at only the cities and months with greater than 500 sales:
+```{r}
+looking_at_cities_with_sales_greater_than_500<-txhousing %>% 
+  filter(sales>500) %>% 
+  select(sales,city,median)
+looking_at_cities_with_sales_greater_than_500
+```
+
+
+
+```{r}
+ #Are the distributions of the median sales price (column name median), when grouped by city, different? The same? Show your work.
+  #Yes, they are different. 
+  ggplot(data=looking_at_cities_with_sales_greater_than_500,mapping=aes(x=city, y=median))+
+  geom_boxplot() + coord_flip()+ylab("City")  + ggtitle("Median")
+```
+
+##Any cities that stand out that you’d want to investigate further?
+```{r}
+#I'd want to investigate Corpus Cristi and Fort Bend
+```
+
+##Why might we want to filter out all cities and months with sales less than 500?
+```{r}
+#The data we have currently is only telling one story. If we filter out to look at those making less than 500, we might be interested in seeing the trends for this segment of the population, which will give us a broader picture of the population. 
+```
+
