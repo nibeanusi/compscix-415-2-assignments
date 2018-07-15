@@ -1,0 +1,77 @@
+---
+title: "Class6"
+author: "Nnenna Ibeanusi"
+date: "7/10/2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+```{r}
+library('tidyverse')
+```
+
+```{r}
+library('nycflights13')
+```
+
+```{r}
+flights %>% sample_n(300) %>% 
+  summarize(mean_time = mean(air_time, na.rm = TRUE),
+                        sd_time = sd(air_time, na.rm = TRUE))
+```
+
+```{r}
+library("lubridate")
+```
+
+```{r}
+"6/16/1915"
+```
+
+```{r}
+birthday <- c('6/16/1915')
+```
+
+```{r}
+birthday
+```
+
+```{r}
+class(birthday)
+```
+
+```{r}
+birthday <- mdy(birthday)
+birthday
+```
+
+```{r}
+class(birthday)
+```
+
+```{r}
+birthday <- '1915-06-16 12:22:21.01'
+birthday <- ymd_hms(birthday)
+birthday
+```
+
+```{r}
+class(birthday)
+```
+
+```{r}
+flights %>% sample_n(300) %>% 
+  summarize(mean_time=mean(air_time,na.rm=TRUE),
+              sd_time=sd(air_time, na.rm=TRUE))
+
+diamonds <- diamonds %>% mutate(carat_fct=case_when(carat<.5~'small',
+                                                      carat>=.5&carat<1~'med',
+                                                      carat>=1~'large'))
+diamonds
+diamonds %>% ggplot(aes(x=cut,y=price))+
+  geom_boxplot()+
+  facet_wrap(~carat_fct)
+```
+
