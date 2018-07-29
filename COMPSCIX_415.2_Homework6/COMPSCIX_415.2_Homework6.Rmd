@@ -1,0 +1,191 @@
+---
+title: "COMPSCIX_415.2_Homework6"
+author: "Nnenna Ibeanusi"
+date: "7/28/2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library("tidyverse")
+```
+
+
+```{r}
+library("mosaicData")
+```
+
+```{r}
+data(Whickham)
+```
+
+#What variables are in the dataset?
+#How many observations are there and what does each represent
+```{r}
+?Whickham
+#outcome survival status after 20 years: a factor with leves Alive Dead
+#smoker smoking status at baseline: a factor with levels No Yes
+#age age(in years) at the time of the first survey
+#1314 observations on women for the variables described previously. The dataset contains a subset of the survey sample: women who were classified as current smokers or as never having smoked. 
+#Each observation is a woman, her smoking status at the baseline, survival status after 20 years and age at the time of the first survey.
+```
+
+#Create a table (use the R code below as a guide) and a visualization of the relationship between smoking status and outcome, ignoring age. What do you see? Does it make sense?
+```{r}
+Whickham %>% 
+  count( smoker,outcome)
+```
+
+```{r}
+Whickham %>% ggplot(aes(x = smoker, fill = outcome)) + 
+  geom_bar(position = 'fill') +
+  labs(y = '') +
+  theme_bw()
+#The plot and table seem to suggest that non-smokers have a higher mortality rate than smokers, which wouldn’t make sense given all we know about the effects of smoking.
+```
+
+
+#Recode the age variable into an ordered factor with three categories: age <= 44, age > 44 & age <= 64, and age > 64. Now, recreate visualization from above, but facet on your new age factor. What do you see? Does it make sense?
+```{r}
+Whickham <-Whickham %>% 
+  mutate(age_fct=factor(case_when(
+    age<=44 ~ 'Young',
+    age>44 & age<=64 ~ 'Older',
+    age>64 ~ 'Retired'
+    ),levels=c('Young', 'Older', 'Retired')))
+```
+
+
+```{r}
+Whickham %>% ggplot(aes(x = smoker, fill = outcome)) + 
+  geom_bar(position = 'fill') +
+  labs(y = '') +
+  facet_wrap(~age_fct) +
+  theme_bw()
+```
+
+```{r}
+#When broken down by age we see that the mortality rate for non-smokers appears to be lower than for smokers, across each age group. The reason the results were the opposite when all age groups were combined may be because of different sample sizes represented in each age group, along with different overall mortality rates.
+```
+
+```{r}
+Whickham %>% ggplot(aes(x = smoker)) + 
+  geom_bar() +
+  labs(y = '') +
+  facet_wrap(~age_fct) +
+  theme_bw()
+```
+
+
+#Generate a random sample of size n = 10000 from a gamma(1,2) distribution and plot a histogram or density curve. Use the code below to help you get your sample.
+```{r}
+n <- 10000
+# look at ?rgamma to read about this function
+gamma_samp <- tibble(x = rgamma(n, shape = 1, scale = 2))
+```
+
+```{r}
+?rgamma
+```
+
+```{r}
+gamma_samp %>% ggplot(aes(x = x)) +
+  geom_histogram()
+```
+
+#What is the mean and standard deviation of your sample? They should both be close to 2 because for a gamma distribution:
+<!-- mean = shape x scale -->
+<!-- variance = shape x scale^2 -->
+```{r}
+mean_samp <- gamma_samp %>% .[['x']] %>% mean()
+mean_samp
+```
+
+```{r}
+gamma_samp %>% .[['x']] %>% sd()
+```
+
+#Pretend the distribution of our population of data looks like the plot above. Now take a sample of size n = 30 from a Gamma(1,2) distribution, plot the histogram or density curve, and calculate the mean and standard deviation.
+
+```{r}
+n <- 30
+
+# look at ?rgamma to read about this function
+gamma_samp <- tibble(x = rgamma(n, shape = 1, scale = 2))
+
+gamma_samp %>% ggplot(aes(x = x)) +
+  geom_histogram()
+```
+
+
+```{r}
+gamma_samp %>% .[['x']] %>% mean()
+```
+```{r}
+gamma_samp %>% .[['x']] %>% sd()
+```
+
+#Take a sample of size n = 30, again from the Gamma(1,2) distribution, calculate the mean, and assign it to a vector named mean_samp. Repeat this 10000 times!!!! The code below might help.
+
+```{r}
+# create a vector with 10000 NAs
+mean_samp <- rep(NA, 10000)
+
+# start a loop
+for(i in 1:10000) {
+  g_samp <- rgamma(30, shape = 1, scale = 2)
+  mean_samp[i] <- mean(g_samp)
+}
+# Convert vector to a tibble
+mean_samp <- tibble(mean_samp)
+```
+
+#Make a histogram of your collection of means from above (mean_samp).
+```{r}
+mean_samp %>% ggplot(aes(x = mean_samp)) +
+  geom_histogram()
+```
+
+#Calculate the mean and standard deviation of all of your sample means.
+```{r}
+mean_samp %>% 
+  summarize(mean_samp_mean = mean(mean_samp), sd_samp_mean = sd(mean_samp))
+```
+
+
+#Did anything surprise you about your answers to #6?
+```{r}
+#The standard deviation being small
+```
+
+
+#According to the Central Limit Theorem, the mean of your sampling distribution should be very close to 2, and the standard deviation of your sampling distribution should be close to σn‾√=230‾‾‾√=0.365. Repeat #4-#6, but now with a sample of size n = 300 instead. Do your results match up well with the theorem?
+```{r}
+# create a vector with 10000 NAs
+mean_samp <- rep(NA, 10000)
+
+# start a loop
+for(i in 1:10000) {
+  g_samp <- rgamma(300, shape = 1, scale = 2)
+  mean_samp[i] <- mean(g_samp)
+}
+# Convert vector to a tibble
+mean_samp <- tibble(mean_samp)
+
+mean_samp %>% ggplot(aes(x = mean_samp)) +
+  geom_histogram()
+```
+
+```{r}
+mean_samp %>% summarize(mean_samp_mean = mean(mean_samp), sd_samp_mean = sd(mean_samp))
+```
+
+```{r}
+#Above we can see that the simulated standard error is 0.115334. By the theorem, the standard error in this case should be 0.1154701. Our results agree well with the theorem.
+```
+
+
+

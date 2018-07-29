@@ -2,7 +2,9 @@
 title: "COMPSCIX 415.2 Homework 5/Midterm"
 author: "Nnenna Ibeanusi"
 date: "7/14/2018"
-output: html_document
+output: 
+  html_document: 
+    toc: yes
 ---
 
 #Git and Github
@@ -62,7 +64,9 @@ txt_data
 
 ##Export the file into a comma-separated file and name it “rail_trail.csv”. Make sure you define the path correctly so that you know where it gets saved. Then reload the file. Include your export and import code and take another glimpse.
 ```{r}
-write_delim(txt_data, delim='|', path='/Users/nnennaibeanusi/Documents/R-workspace/compscix-415-2-assignments/midterm/rail_trail.csv')
+write_delim(txt_data, path='/Users/nnennaibeanusi/Documents/R-workspace/compscix-415-2-assignments/midterm/rail_trail.csv')
+rail_trail_2 <- read_csv(file='rail_trail.csv')
+glimpse(rail_trail_2)
 ```
 
 

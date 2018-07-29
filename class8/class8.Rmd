@@ -1,0 +1,101 @@
+---
+title: "Class8"
+author: "Nnenna Ibeanusi"
+date: "7/24/2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+paste('a','b','c')#space
+```
+
+```{r}
+paste0('a','b','c')#no space
+```
+
+```{r}#popqQiz1
+fit_model <- function(samp_size,x_var){
+  diam_sample <- diamonds %>% sample_n(samp_size)#random sample
+  diam_samp_lm <- lm('price ~', x_var)
+  diam_samp_lm <- lm(model_formula,data=diam_samp)
+  slopes <- coef(diam_sample_lm)[2]#store the coefficient
+  return(slopes)
+}
+```
+
+```{r}
+fit_model(100,'z')
+```
+
+<!-- ```{r}#popQuiz2 -->
+<!-- fit_model <- function(samp_size,x_var){ -->
+<!--   diam_sample <- diamonds %>% sample_n(samp_size)#random sample -->
+<!--   diam_samp_lm <- lm('price ~', x_var) -->
+<!--   diam_samp_lm <- lm(model_formula,data=diam_samp) -->
+<!--   slopes <- coef(diam_sample_lm)[2]#store the coefficient -->
+<!--   all_results <- list(my_samp)=diam_samp,my_mod=diam_ -->
+<!--   return(slopes) -->
+<!-- } -->
+<!-- ``` -->
+
+n<-3
+slopes<-rep(NA,n)#empty vector for saving coefficients
+my_mods<-my_samps<-list()
+for(i in 1:n){
+  my_reslult<-fit_model(100,'carat')
+  my_sample[[i]]<-my_result$my_samp
+  my_mods[[i]]<-my_result$my_mod
+  slopes[i]<-my_results$slope
+}
+all_results<-tibble(my_samps,my_mods, slopes)
+```{r}
+library("tidyverse")
+```
+
+
+```{r}
+library("mdsr")
+```
+
+```{r}
+glimpse(CholeraDeaths)
+```
+
+```{r}
+library("rgdal")
+```
+
+```{r}
+library("ggmap")
+```
+
+```{r}
+library("leaflet")
+```
+
+```{r}
+leaflet() %>% 
+  setView(lng=-122.3937,lat=37.79137,zoom=14) %>% 
+  addTiles()
+```
+
+```{r}
+ucb_geo <- geocode(ucb_ext)
+map <- leaflet() %>%
+  addTiles() %>%
+  addMarkers(lng = ~lon, lat = ~lat, data = ucb_geo)
+map
+```
+
+```{r}
+library(forecast)
+```
+
+```{r}
+library(tseries)
+```
+
