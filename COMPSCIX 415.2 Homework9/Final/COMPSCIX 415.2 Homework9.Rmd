@@ -1,0 +1,47 @@
+---
+title: "COMPSCIX 415.2 Homework9/Final"
+author: "Nnenna Ibeanusi"
+date: "8/5/2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+```{r}
+library("tidyverse")
+```
+
+```{r}
+library("broom")
+```
+
+#Exercise 1 - Sampling Distributions, Functions and For Loops
+```{r}
+
+
+```
+
+```{r}
+
+```
+
+```{r}
+samp_fun <- function(samp_size, samp_rate) {
+# Takes a sample of size samp_size from this exponential distribution (samp_size is an input parameter for the function)
+    # sample size
+    samp_size <- 100
+# Calculates the mean of that sample
+    # set the rate parameter
+    samp_rate <- 1/10000
+    # take sample
+    sample <- rexp(n = samp_size, rate = samp_rate)
+    mean <- 10000
+    standard deviation <-  10000
+# Calculates the standard deviation of that sample
+# Returns the calculated mean and standard deviation as a list
+  stats <- list(samp_avg = samp_avg, samp_std_dev = samp_std_dev)
+  return(stats)
+}
+```
+
