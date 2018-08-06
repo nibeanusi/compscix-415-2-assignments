@@ -1,0 +1,39 @@
+---
+title: "COMPSCIX_415.2_Homework8"
+author: "Nnenna Ibeanusi"
+date: "8/5/2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+### You can use this vector of city names to test your function
+cities <- c('Luxembourg', 'Dublin', 'Brisbane', 'Seville', 'Stockholm', 'Ljubljana')
+```
+
+```{r}
+library(tidyverse)
+library(leaflet)
+library(jsonlite)
+cities <- c('Luxembourg', 'Dublin', 'Brisbane', 'Seville', 'Stockholm', 'Ljubljana')
+
+map_it <- function(city) {
+  # define the url with your API key and city name
+  url <- paste0("https://api.jcdecaux.com/vls/v1/stations?contract=", city, "&apiKey=27b3d42f52748a643acf2deb2eebfebdc1418fef")
+  
+  # pull the data
+  df_api <- fromJSON(url, flatten = TRUE)
+
+  # create the leaflet map
+  leaflet(df_api) %>% setView(lng = mean(df_api$position.lng), lat = mean(df_api$position.lat), zoom = 14) %>% 
+    addTiles() %>% 
+    addAwesomeMarkers(~position.lng, ~position.lat, label=~as.character(available_bikes))
+}
+
+map_it(cities[1])
+```
+
+

@@ -1,0 +1,206 @@
+---
+title: "Class9"
+author: "Nnenna Ibeanusi"
+date: "7/31/2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+```{r}
+library("tidyverse")
+```
+
+```{r}
+true_a <- 0.05
+true_b <- 0.05
+n_a <- 1000
+n_b <- 1000
+```
+
+```{r}
+samp_a <- rbinom(n=1,size=n_a, prob=true_a)
+samp_b <- rbinom(n=1,size=n_b,prob=true_b)#size is the number of times you run the process, the number of visitors to the webpage
+#prob is the probability
+#n
+```
+
+```{r}
+samp_a/n_a
+```
+
+```{r}
+
+```
+
+```{r}
+m <- 1000
+samp_a <- rbinom(n=m,size=n_a, prob=true_a)
+samp_b <- rbinom(n=m,size=n_b,prob=true_b)
+```
+
+```{r}
+head(samp_a)
+```
+
+```{r}
+head(samp_b)
+```
+
+
+```{r}
+plot_data <- as_tibble(list(samp_a = samp_a/n_a, samp_b = samp_b/n_b))
+plot_data %>% ggplot(aes(x = samp_a)) +
+  geom_histogram(binwidth = .001) +
+  xlab('Sample proportions for Version A') +
+  theme_bw()
+```
+
+
+```{r}
+plot_data %>% ggplot(aes(x = samp_b)) +
+  geom_histogram(binwidth = .001) +
+  xlab('Sample proportions for Version B') +
+  theme_bw()
+```
+
+```{r}
+#x=#of successes(converstions)
+#n is size of sample
+#p is our null hypothesis value
+prop_test <- prop.test(x=50, n=1000, p=.1)
+```
+
+```{r}
+class(prop_test)
+```
+
+```{r}
+names(prop_test)
+```
+
+```{r}
+prop_test$p.value
+```
+
+```{r}
+samp_a <- rbinom(n=1, size = 1000, p=.05)
+samp_b <- rbinom(n=1, size = 1000, p=.06)
+samp_c <- rbinom(n=1, size = 1000, p=.07)
+samp_c <- rbinom(n=1, size = 1000, p=.08)
+```
+
+```{r}
+samp_a
+```
+
+```{r}
+samp_b
+```
+
+```{r}
+samp_c
+```
+
+```{r}
+prop_test_05 <- prop.test(x=68, n=1000, p=0.05)
+prop_test_06 <- prop.test(x=68, n=1000, p=0.06)
+prop_test_07 <- prop.test(x=68, n=1000, p=0.07)
+prop_test_08 <- prop.test(x=68, n=1000, p=0.08)
+```
+
+
+```{r}
+prop_test_05$p.value
+```
+```{r}
+prop_test_06$p.value
+```
+
+```{r}
+prop_test_07$p.value
+```
+
+```{r}
+prop_test_08$p.value
+```
+
+
+
+
+
+```{r}
+true_a <- .05
+true_b <- .05
+n_a <- 1000
+n_b <- 1000
+set.seed(10)
+samp_a <- rbinom(n = 1, size = n_a, prob = true_a)
+samp_b <- rbinom(n = 1, size = n_b, prob = true_b)
+```
+
+```{r}
+samp_a
+```
+
+```{r}
+samp_b
+```
+
+```{r}
+two_prop_test <- prop.test(c(samp_a, samp_b), c(1000, 1000))
+two_prop_test$p.value
+```
+
+
+
+```{r}
+true_a <- .05
+true_b <- .10
+n_a <- 1000
+n_b <- 1000
+# this part will simulate how many conversions there are
+# for our 1000 visitors, when we know the true conversion rates
+# n = 1 because we only want one sample conversion rate
+set.seed(10)#set the seed first to get the same random number
+samp_a <- rbinom(n = 1, size = n_a, prob = true_a)
+samp_b <- rbinom(n = 1, size = n_b, prob = true_b)
+```
+
+```{r}
+samp_a
+```
+
+```{r}
+samp_b
+```
+
+```{r}
+two_prop_test <- prop.test(c(samp_a, samp_b), c(1000, 1000))
+two_prop_test$p.value
+```
+
+
+```{r}
+true_a <- .05
+true_b <- .05
+n_a <- 1000
+n_b <- 1000
+# this part will simulate how many conversions there are
+# for our 1000 visitors, when we know the true conversion rates
+# n = 1 because we only want one sample conversion rate
+samp_a <- rbinom(n = 1, size = n_a, prob = true_a)
+samp_b <- rbinom(n = 1, size = n_b, prob = true_b)
+two_prop_test <- prop.test(c(samp_a, samp_b), c(1000, 1000))
+two_prop_test$p.value
+```
+
+
+```{r}
+
+```
+
